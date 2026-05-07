@@ -11,6 +11,23 @@ export default function OnboardingForm() {
   });
   const [primaryColor, setPrimaryColor] = useState('#7F77DD');
   const [secondaryColor, setSecondaryColor] = useState('#1D9E75');
+  const [showModal, setShowModal] = useState(false);
+
+  // Datos de la agencia
+  const [agencyName, setAgencyName] = useState('');
+  const [cifNif, setCifNif] = useState('');
+  const [socialReason, setSocialReason] = useState('');
+  const [fiscalAddress, setFiscalAddress] = useState('');
+  const [billingEmail, setBillingEmail] = useState('');
+  const [country, setCountry] = useState('España');
+
+  // Persona de contacto
+  const [contactName, setContactName] = useState('');
+  const [contactPosition, setContactPosition] = useState('');
+  const [contactEmail, setContactEmail] = useState('');
+  const [contactPhone, setContactPhone] = useState('');
+
+  const isFormValid = agencyName && cifNif && socialReason && fiscalAddress && billingEmail && contactName && contactPosition && contactEmail && contactPhone;
 
   const planUsers = { mini: 1, starter: 2, agency: 6, corporate: 10 };
 
@@ -67,17 +84,17 @@ export default function OnboardingForm() {
 
       {/* Datos de la agencia */}
       <div className="bg-white border border-gray-200 rounded-lg p-5">
-        <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-4">Datos de la agencia</h2>
+        <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-4">Datos de la agencia *</h2>
         <div className="space-y-3">
-          <input type="text" placeholder="Nombre de la agencia" className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50" />
+          <input type="text" placeholder="Nombre de la agencia" value={agencyName} onChange={(e) => setAgencyName(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50" />
           <div className="grid grid-cols-2 gap-3">
-            <input type="text" placeholder="CIF / NIF" className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50" />
-            <input type="text" placeholder="Razón social" className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50" />
+            <input type="text" placeholder="CIF / NIF" value={cifNif} onChange={(e) => setCifNif(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50" />
+            <input type="text" placeholder="Razón social" value={socialReason} onChange={(e) => setSocialReason(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50" />
           </div>
-          <input type="text" placeholder="Dirección fiscal" className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50" />
+          <input type="text" placeholder="Dirección fiscal" value={fiscalAddress} onChange={(e) => setFiscalAddress(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50" />
           <div className="grid grid-cols-2 gap-3">
-            <input type="email" placeholder="Email de facturación" className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50" />
-            <select className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50">
+            <input type="email" placeholder="Email de facturación" value={billingEmail} onChange={(e) => setBillingEmail(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50" />
+            <select value={country} onChange={(e) => setCountry(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50">
               <option>España</option>
               <option>Portugal</option>
               <option>México</option>
@@ -89,15 +106,15 @@ export default function OnboardingForm() {
 
       {/* Persona de contacto */}
       <div className="bg-white border border-gray-200 rounded-lg p-5">
-        <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-4">Persona de contacto principal</h2>
+        <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-4">Persona de contacto principal *</h2>
         <div className="space-y-3">
           <div className="grid grid-cols-2 gap-3">
-            <input type="text" placeholder="Nombre y apellidos" className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50" />
-            <input type="text" placeholder="Cargo" className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50" />
+            <input type="text" placeholder="Nombre y apellidos" value={contactName} onChange={(e) => setContactName(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50" />
+            <input type="text" placeholder="Cargo" value={contactPosition} onChange={(e) => setContactPosition(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50" />
           </div>
           <div className="grid grid-cols-2 gap-3">
-            <input type="email" placeholder="Email" className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50" />
-            <input type="tel" placeholder="+34 600 000 000" className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50" />
+            <input type="email" placeholder="Email" value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50" />
+            <input type="tel" placeholder="+34 600 000 000" value={contactPhone} onChange={(e) => setContactPhone(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50" />
           </div>
         </div>
       </div>
@@ -207,9 +224,50 @@ export default function OnboardingForm() {
         </div>
       </div>
 
-      <button className="w-full h-10 text-white font-semibold rounded-md transition-colors" style={{ backgroundColor: '#0a0a0a' }} onMouseEnter={(e) => e.target.style.backgroundColor = '#1a1a1a'} onMouseLeave={(e) => e.target.style.backgroundColor = '#0a0a0a'}>
+      <button
+        onClick={() => setShowModal(true)}
+        disabled={!isFormValid}
+        className="w-full h-10 text-white font-semibold rounded-md transition-colors"
+        style={{
+          backgroundColor: isFormValid ? '#0a0a0a' : '#999999',
+          cursor: isFormValid ? 'pointer' : 'not-allowed',
+          opacity: isFormValid ? 1 : 0.6
+        }}
+        onMouseEnter={(e) => {
+          if (isFormValid) e.target.style.backgroundColor = '#1a1a1a';
+        }}
+        onMouseLeave={(e) => {
+          if (isFormValid) e.target.style.backgroundColor = '#0a0a0a';
+        }}
+      >
         Crear cuenta →
       </button>
+
+      {/* Modal */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-8 max-w-sm mx-auto text-center">
+            <div className="mb-4">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+            </div>
+            <h2 className="text-xl font-bold text-gray-900 mb-2">¡Datos recibidos!</h2>
+            <p className="text-sm text-gray-600 mb-6">Hemos recibido tu información correctamente. Nos pondremos en contacto pronto para configurar tu cuenta.</p>
+            <button
+              onClick={() => setShowModal(false)}
+              className="w-full h-10 text-white font-semibold rounded-md transition-colors"
+              style={{ backgroundColor: '#0a0a0a' }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = '#1a1a1a'}
+              onMouseLeave={(e) => e.target.style.backgroundColor = '#0a0a0a'}
+            >
+              Entendido
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Despedida */}
       <div className="text-center pt-4">
