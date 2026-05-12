@@ -1,5 +1,13 @@
 import { useState } from 'react';
 
+const focusStyle = `
+  input:focus, select:focus, textarea:focus {
+    outline: none !important;
+    border-color: #0a0a0a !important;
+    box-shadow: 0 0 0 1px #0a0a0a !important;
+  }
+`;
+
 export default function OnboardingForm() {
   const [immediateStart, setImmediateStart] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState('starter');
@@ -15,6 +23,7 @@ export default function OnboardingForm() {
 
   // Datos de la agencia
   const [agencyName, setAgencyName] = useState('');
+  const [commercialName, setCommercialName] = useState('');
   const [cifNif, setCifNif] = useState('');
   const [socialReason, setSocialReason] = useState('');
   const [fiscalAddress, setFiscalAddress] = useState('');
@@ -27,7 +36,7 @@ export default function OnboardingForm() {
   const [contactEmail, setContactEmail] = useState('');
   const [contactPhone, setContactPhone] = useState('');
 
-  const isFormValid = agencyName && cifNif && socialReason && fiscalAddress && billingEmail && contactName && contactPosition && contactEmail && contactPhone;
+  const isFormValid = agencyName && commercialName && cifNif && socialReason && fiscalAddress && billingEmail && contactName && contactPosition && contactEmail && contactPhone;
 
   const planUsers = { mini: 1, starter: 2, agency: 6, corporate: 10 };
 
@@ -73,12 +82,13 @@ export default function OnboardingForm() {
 
   return (
     <div className="max-w-2xl mx-auto py-6 px-4 space-y-4">
+      <style>{focusStyle}</style>
       <h1 className="sr-only">Formulario de onboarding para nuevas agencias inmobiliarias</h1>
 
       {/* Bienvenida */}
       <div className="mb-6 text-center">
         <h2 className="text-3xl font-bold mb-2 text-gray-900">¡Bienvenido a RentaFlow!</h2>
-        <p className="text-gray-600 text-sm mb-1">Nos alegra que hayas decidido unirte a nuestra comunidad de agencias inmobiliarias</p>
+        <p className="text-gray-600 text-sm mb-1">Estamos encantados de que hayas elegido RentaFlow para gestionar tu agencia inmobiliaria</p>
         <p className="text-gray-500 text-xs">Completa los siguientes datos para configurar tu cuenta</p>
       </div>
 
@@ -86,19 +96,20 @@ export default function OnboardingForm() {
       <div className="bg-white border border-gray-200 rounded-lg p-5">
         <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-4">Datos de la agencia *</h2>
         <div className="space-y-3">
-          <input type="text" placeholder="Nombre de la agencia" value={agencyName} onChange={(e) => setAgencyName(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50" />
+          <input type="text" placeholder="Nombre de la agencia" value={agencyName} onChange={(e) => setAgencyName(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-black focus:ring-1 focus:ring-black" />
+          <input type="text" placeholder="Nombre comercial (para comunicaciones)" value={commercialName} onChange={(e) => setCommercialName(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-black focus:ring-1 focus:ring-black" />
           <div className="grid grid-cols-2 gap-3">
-            <input type="text" placeholder="CIF / NIF" value={cifNif} onChange={(e) => setCifNif(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50" />
-            <input type="text" placeholder="Razón social" value={socialReason} onChange={(e) => setSocialReason(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50" />
+            <input type="text" placeholder="CIF / NIF" value={cifNif} onChange={(e) => setCifNif(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-black focus:ring-1 focus:ring-black" />
+            <input type="text" placeholder="Razón social" value={socialReason} onChange={(e) => setSocialReason(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-black focus:ring-1 focus:ring-black" />
           </div>
-          <input type="text" placeholder="Dirección fiscal" value={fiscalAddress} onChange={(e) => setFiscalAddress(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50" />
+          <input type="text" placeholder="Dirección fiscal" value={fiscalAddress} onChange={(e) => setFiscalAddress(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-black focus:ring-1 focus:ring-black" />
           <div className="grid grid-cols-2 gap-3">
-            <input type="email" placeholder="Email de facturación" value={billingEmail} onChange={(e) => setBillingEmail(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50" />
-            <select value={country} onChange={(e) => setCountry(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50">
-              <option>España</option>
-              <option>Portugal</option>
-              <option>México</option>
-              <option>Argentina</option>
+            <input type="email" placeholder="Email de facturación" value={billingEmail} onChange={(e) => setBillingEmail(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-black focus:ring-1 focus:ring-black" />
+            <select value={country} onChange={(e) => setCountry(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50 text-black" style={{ colorScheme: 'light' }}>
+              <option style={{ color: 'black' }}>España</option>
+              <option style={{ color: 'black' }}>Portugal</option>
+              <option style={{ color: 'black' }}>México</option>
+              <option style={{ color: 'black' }}>Argentina</option>
             </select>
           </div>
         </div>
@@ -109,12 +120,12 @@ export default function OnboardingForm() {
         <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-4">Persona de contacto principal *</h2>
         <div className="space-y-3">
           <div className="grid grid-cols-2 gap-3">
-            <input type="text" placeholder="Nombre y apellidos" value={contactName} onChange={(e) => setContactName(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50" />
-            <input type="text" placeholder="Cargo" value={contactPosition} onChange={(e) => setContactPosition(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50" />
+            <input type="text" placeholder="Nombre y apellidos" value={contactName} onChange={(e) => setContactName(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-black focus:ring-1 focus:ring-black" />
+            <input type="text" placeholder="Cargo" value={contactPosition} onChange={(e) => setContactPosition(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-black focus:ring-1 focus:ring-black" />
           </div>
           <div className="grid grid-cols-2 gap-3">
-            <input type="email" placeholder="Email" value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50" />
-            <input type="tel" placeholder="+34 600 000 000" value={contactPhone} onChange={(e) => setContactPhone(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50" />
+            <input type="email" placeholder="Email" value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-black focus:ring-1 focus:ring-black" />
+            <input type="tel" placeholder="+34 600 000 000" value={contactPhone} onChange={(e) => setContactPhone(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-black focus:ring-1 focus:ring-black" />
           </div>
         </div>
       </div>
@@ -215,7 +226,7 @@ export default function OnboardingForm() {
         {!immediateStart && (
           <div className="mb-4">
             <label className="text-xs text-gray-600 font-semibold block mb-2">Fecha de activación</label>
-            <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50" />
+            <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="w-full h-9 px-3 text-sm border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-black focus:ring-1 focus:ring-black" />
           </div>
         )}
         <div>
