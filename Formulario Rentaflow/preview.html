@@ -34,6 +34,51 @@
             const [primaryColor, setPrimaryColor] = useState('#7F77DD');
             const [secondaryColor, setSecondaryColor] = useState('#1D9E75');
             const [showModal, setShowModal] = useState(false);
+            const [isSubmitting, setIsSubmitting] = useState(false);
+            const [submitError, setSubmitError] = useState(false);
+
+            const handleSubmit = async () => {
+                setIsSubmitting(true);
+                setSubmitError(false);
+                try {
+                    await fetch('https://acesalquiler-n8n.ibdvf1.easypanel.host/webhook/onboard', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            agencia: {
+                                nombre: agencyName,
+                                nombreComercial: commercialName,
+                                cifNif,
+                                razonSocial: socialReason,
+                                direccionFiscal: fiscalAddress,
+                                emailFacturacion: billingEmail,
+                                pais: country,
+                            },
+                            contacto: {
+                                nombre: contactName,
+                                cargo: contactPosition,
+                                email: contactEmail,
+                                telefono: contactPhone,
+                            },
+                            identidadVisual: {
+                                colorPrincipal: primaryColor,
+                                colorSecundario: secondaryColor,
+                            },
+                            configuracion: {
+                                plan: selectedPlan,
+                                usuarios: userCount,
+                                inicioInmediato: immediateStart,
+                                fechaInicio: immediateStart ? null : startDate,
+                            },
+                        }),
+                    });
+                    setShowModal(true);
+                } catch (error) {
+                    setSubmitError(true);
+                } finally {
+                    setIsSubmitting(false);
+                }
+            };
 
             // Datos de la agencia
             const [agencyName, setAgencyName] = useState('');
@@ -248,23 +293,29 @@
                         </div>
                     </div>
 
+                    {submitError && (
+                        <div className="text-center text-xs text-red-500 bg-red-50 border border-red-200 rounded-md px-3 py-2">
+                            Ha ocurrido un error al enviar los datos. Por favor, inténtalo de nuevo.
+                        </div>
+                    )}
+
                     <button
-                        onClick={() => setShowModal(true)}
-                        disabled={!isFormValid}
+                        onClick={handleSubmit}
+                        disabled={!isFormValid || isSubmitting}
                         className="w-full h-10 text-white font-semibold rounded-md transition-colors"
                         style={{
-                            backgroundColor: isFormValid ? '#0a0a0a' : '#999999',
-                            cursor: isFormValid ? 'pointer' : 'not-allowed',
-                            opacity: isFormValid ? 1 : 0.6
+                            backgroundColor: isFormValid && !isSubmitting ? '#0a0a0a' : '#999999',
+                            cursor: isFormValid && !isSubmitting ? 'pointer' : 'not-allowed',
+                            opacity: isFormValid && !isSubmitting ? 1 : 0.6
                         }}
                         onMouseEnter={(e) => {
-                            if (isFormValid) e.target.style.backgroundColor = '#1a1a1a';
+                            if (isFormValid && !isSubmitting) e.target.style.backgroundColor = '#1a1a1a';
                         }}
                         onMouseLeave={(e) => {
-                            if (isFormValid) e.target.style.backgroundColor = '#0a0a0a';
+                            if (isFormValid && !isSubmitting) e.target.style.backgroundColor = '#0a0a0a';
                         }}
                     >
-                        Crear cuenta →
+                        {isSubmitting ? 'Enviando...' : 'Crear cuenta →'}
                     </button>
 
                     {/* Modal */}
